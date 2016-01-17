@@ -67,8 +67,8 @@ function ObtenComponentesYEscribe(Datos::Array, tini=1, tfini=tmax)
         centrosdemasaneg=vcat(centrosdemasaneg, A)
     end
     centrosdemasaneg=centrosdemasaneg[2:end,:]
-    zacatlan="GarbageCollector/CMPozos-$t.dat"
-    writedlm(zacatlan, centrosdemasaneg)
+    #zacatlan="GarbageCollector/CMPozos-$t.dat"
+    #writedlm(zacatlan, centrosdemasaneg)
     ##### Ahora lo posittivo (fuentes)
     while(length(listapos)!=0)
         x=pop!(listapos) #arranca el ULTIMO elemento de la lista
