@@ -1,6 +1,5 @@
 #carga los Datos y filra
 using PyPlot;
-cd("/Users/Nes/Desktop/NeuroCiencias/JuliaExperiments/Optimizacion_Componentes_Disjuntos");
 muacamuaca=open("DatosActividadEpilepticaSelectos.bin", "r");
 formaarray=(64,64,9101);
 Datos=read(muacamuaca, Float64, formaarray);

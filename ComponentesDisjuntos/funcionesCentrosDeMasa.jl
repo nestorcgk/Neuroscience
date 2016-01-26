@@ -1,5 +1,4 @@
 #Obtención de la densidad de fuentes de corriente (CSD)
-
 function UnNormGauss(x,sigma)
     return exp(-x*x/(2*sigma))
 end
