@@ -1,6 +1,6 @@
-function ObtenComponentesYEscribe(Datos::Array, tini=1, tfini=tmax)
+function ObtenComponentesYEscribeP(Datos::Array, tini=1, tfini=tmax)
 
- @parallel for t=tini:tfini
+ @time @parallel for t=tini:tfini
     #iniciar variables vacias
     ActividadNegativa=Array{Int16}[]
     ActividadPositiva=Array{Int16}[]
@@ -67,7 +67,7 @@ function ObtenComponentesYEscribe(Datos::Array, tini=1, tfini=tmax)
         centrosdemasaneg=vcat(centrosdemasaneg, A)
     end
     centrosdemasaneg=centrosdemasaneg[2:end,:]
-    zacatlan="GarbageCollector/CMPozos-$t.dat"
+    zacatlan="/Users/Nes/Desktop/NeuroCiencias/JuliaExperiments/Parallel-Neuroscience/ComponentesDisjuntos/GarbageCollector/CMPozos-$t.dat"
     writedlm(zacatlan, centrosdemasaneg)
     ##### Ahora lo posittivo (fuentes)
     while(length(listapos)!=0)
@@ -114,8 +114,8 @@ function ObtenComponentesYEscribe(Datos::Array, tini=1, tfini=tmax)
         centrosdemasapos=vcat(centrosdemasapos, A)
     end
     centrosdemasapos=centrosdemasapos[2:end,:]
-    zacatlan="GarbageCollector/CMFuentes-$t.dat"
+    zacatlan="/Users/Nes/Desktop/NeuroCiencias/JuliaExperiments/Parallel-Neuroscience/ComponentesDisjuntos/GarbageCollector/CMFuentes-$t.dat"
     writedlm(zacatlan, centrosdemasapos)
 end
-    return curlab
+    #return curlab
 end
