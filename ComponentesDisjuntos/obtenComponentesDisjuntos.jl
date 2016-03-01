@@ -114,7 +114,7 @@ function ObtenComponentesYEscribe(Datos::Array, tini=1, tfini=tmax)
         centrosdemasapos=vcat(centrosdemasapos, A)
     end
     centrosdemasapos=centrosdemasapos[2:end,:]
-    zacatlan="/Users/Nes/Desktop/NeuroCiencias/JuliaExperiments/Parallel-Neuroscience/ComponentesDisjuntos/GarbageCollector/CMPozos-$t.dat"
+    zacatlan="/Users/Nes/Desktop/NeuroCiencias/JuliaExperiments/Parallel-Neuroscience/ComponentesDisjuntos/GarbageCollector/CMFuentes-$t.dat"
     writedlm(zacatlan, centrosdemasapos)
 end
     return curlab
