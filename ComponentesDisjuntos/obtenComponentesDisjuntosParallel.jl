@@ -1,6 +1,8 @@
 function ObtenComponentesYEscribeP(Datos::Array, tini=1, tfini=tmax)
 
     @sync @parallel for t=tini:tfini
+    
+    tic()
     #iniciar variables vacias
     ActividadNegativa=Array{Int16}[]
     ActividadPositiva=Array{Int16}[]
@@ -117,7 +119,8 @@ function ObtenComponentesYEscribeP(Datos::Array, tini=1, tfini=tmax)
     zacatlan="/Users/Nes/Desktop/NeuroCiencias/JuliaExperiments/Parallel-Neuroscience/ComponentesDisjuntos/GarbageCollector/CMFuentes-$t.dat"
     writedlm(zacatlan, centrosdemasapos)
 
-
+    println("Slice t= $(t)  ")
+    toc()
 end
-    #return timePerSlice
+    
 end
