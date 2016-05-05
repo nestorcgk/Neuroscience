@@ -117,5 +117,5 @@ function ObtenComponentesYEscribe(Datos::Array, tini=1, tfini=tmax)
     zacatlan="/Users/Nes/Desktop/NeuroCiencias/JuliaExperiments/Parallel-Neuroscience/ComponentesDisjuntos/GarbageCollector/CMFuentes-$t.dat"
     writedlm(zacatlan, centrosdemasapos)
 end
-    return curlab
+    
 end

@@ -1,8 +1,10 @@
+
 function ObtenComponentesYEscribeP(Datos::Array, tini=1, tfini=tmax)
 
     @sync @parallel for t=tini:tfini
-    
-    tic()
+    #t = tini
+    #println("t: ",t)
+    #tic()
     #iniciar variables vacias
     ActividadNegativa=Array{Int16}[]
     ActividadPositiva=Array{Int16}[]
@@ -117,10 +119,14 @@ function ObtenComponentesYEscribeP(Datos::Array, tini=1, tfini=tmax)
     end
     centrosdemasapos=centrosdemasapos[2:end,:]
     zacatlan="/Users/Nes/Desktop/NeuroCiencias/JuliaExperiments/Parallel-Neuroscience/ComponentesDisjuntos/GarbageCollector/CMFuentes-$t.dat"
-    writedlm(zacatlan, centrosdemasapos)
+    #println("CPU:")
+    #toc()
 
-    println("Slice t= $(t)  ")
-    toc()
+    #println("I/O:")
+    #tic()
+    writedlm(zacatlan, centrosdemasapos)
+    #toc()
+
 end
     
 end

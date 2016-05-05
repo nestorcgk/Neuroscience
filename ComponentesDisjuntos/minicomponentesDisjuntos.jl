@@ -18,6 +18,7 @@ function miniComponentesDisjuntos(CSD::Array)
 	curlab=0
 	index = 0
 	componentes=Set{Any}()
+
 	while(length(lista)!=0)
 	    x=pop!(lista) #arranca el ULTIMO elemento de la lista
 	    listaprofundeza=Array{Int64}[]
@@ -28,8 +29,8 @@ function miniComponentesDisjuntos(CSD::Array)
 	    while ((length(listaprofundeza)!=0) && profundidad<100)
 	        y=pop!(listaprofundeza)
 	        for v in vecindad8(y)
-	        		#index = indexin({v}, lista)
-	                if in(v, lista)#index != {0}
+	        		#index = indexin({v}, lista)	        	    
+	                if in(v, lista)#index != {0}	          
 	             #   println(indexin({v},lista), v)
 	                deleteat!(lista, indexin({v}, lista)) #deleteat!(lista, index)
 	            #    println(v, "si estaba en la lista")
