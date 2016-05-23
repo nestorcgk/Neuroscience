@@ -71,7 +71,7 @@ function ObtenComponentesYEscribeP(Datos::Array, tini=1, tfini=tmax)
         centrosdemasaneg=vcat(centrosdemasaneg, A)
     end
     centrosdemasaneg=centrosdemasaneg[2:end,:]
-    zacatlan="/Users/Nes/Desktop/NeuroCiencias/JuliaExperiments/Parallel-Neuroscience/ComponentesDisjuntos/GarbageCollector/CMPozos-$t.dat"
+    zacatlan="/home/tesista/Parallel-Neuroscience/ComponentesDisjuntos_Linux/GarbageCollector/CMPozos-$t.dat"
     writedlm(zacatlan, centrosdemasaneg)
     ##### Ahora lo posittivo (fuentes)
     while(length(listapos)!=0)
@@ -118,7 +118,7 @@ function ObtenComponentesYEscribeP(Datos::Array, tini=1, tfini=tmax)
         centrosdemasapos=vcat(centrosdemasapos, A)
     end
     centrosdemasapos=centrosdemasapos[2:end,:]
-    zacatlan="/Users/Nes/Desktop/NeuroCiencias/JuliaExperiments/Parallel-Neuroscience/ComponentesDisjuntos/GarbageCollector/CMFuentes-$t.dat"
+    zacatlan="/home/tesista/Parallel-Neuroscience/ComponentesDisjuntos_Linux/GarbageCollector/CMFuentes-$t.dat"
     #println("CPU:")
     #toc()
 
