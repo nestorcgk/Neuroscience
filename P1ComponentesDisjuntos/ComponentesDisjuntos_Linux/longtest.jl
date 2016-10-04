@@ -1,0 +1,7 @@
+writedlm("4coretime.txt",@elapsed ObtenComponentesYEscribeP(CSD,101,1101))
+rmprocs(5,4)
+writedlm("2coretime.txt",@elapsed ObtenComponentesYEscribeP(CSD,101,1101))
+rmprocs(3)
+writedlm("1coretime2procs.txt",@elapsed ObtenComponentesYEscribeP(CSD,101,1101))
+rmprocs(2)
+writedlm("1coretime1proc.txt",@elapsed ObtenComponentesYEscribeP(CSD,101,1101))
