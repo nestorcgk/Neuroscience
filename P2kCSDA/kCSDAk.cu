@@ -14,6 +14,7 @@ __global__ void calculateK(float * d_out, float * d_in){
     if (j >= ELECTRODES || k > j)
     	return;
     float sum = 0;
+    //Ver lo de los indices matriz julia vs c++
     for (int l = 0; l < ELECTRODES; ++l)
     {
     	int xj1 = (int) ceil((double) j/ (double) MATRIX_DIM);
