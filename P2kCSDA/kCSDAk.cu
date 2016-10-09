@@ -14,15 +14,16 @@ using namespace boost;
 	//out: datos salida; in: datos entrada; block: tamaño del bloque; electrodes:numElectrodos;matdim dimension de la b0; origin:coord origen=y=x
 	//Kernel parameters: K output matrix, Bj integral matrix (Potoworowski)
 __global__ void calculateK(float * d_out, float * d_in,int block, int electrodes, int matdim, int origin){
-	int j = block * blockIdx.x + threadIdx.x; //row
-    int k = block * blockIdx.y + threadIdx.y; //column
+	int k = block * blockIdx.x + threadIdx.x; //column
+    int j = block * blockIdx.y + threadIdx.y; //row
 
-    if(k <= j && j < electrodes) 
+    if(j >= k && j < electrodes) 
     {
 	    float sum = 0;
 	    //Ver lo de los indices matriz julia vs c++
 	    for (int l = 0; l < electrodes; ++l)
 	    {
+	    	/*
 	    	int xj1 = (int) ceil((double) j/ (double) matdim);
 	    	int xj2 = j % matdim;
 	    	int xk1 = (int) ceil((double) k/ (double) matdim);
@@ -33,9 +34,11 @@ __global__ void calculateK(float * d_out, float * d_in,int block, int electrodes
 	    	int idx1 = xk1-xl1+origin + matdim*(xk2-xl2+origin);	
 	    	int idx2 = xj1-xl1+origin + matdim*(xj2-xl2+origin);
 	    	sum +=  d_in[idx1]* d_in[idx2];
+				*/
+			sum++;    
 	    }
 	  
-    	d_out[j + electrodes*k] = sum;
+    	d_out[k + electrodes*j] = sum;
     }
     
 }
@@ -121,9 +124,6 @@ int main(int argc, char ** argv) {
 	// writeData in file
 	writeData(result.data(), ELECTRODES);
 	
-	
-	
-
 	cudaFree(d_in);
 	cudaFree(d_out);
 
