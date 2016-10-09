@@ -5,4 +5,4 @@
 
 
 void readData(std::string name, float* data);
-
+void writeData(float* data, int matdim);

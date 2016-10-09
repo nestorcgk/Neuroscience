@@ -30,7 +30,19 @@ void readData(string name, float* data){
 	}
 	myfile.close();
 	}
+}
+
+void writeData(float* data, int matdim){
+	std::ofstream output("K.dat");
+	for (int j = 0; j < matdim; ++j)
+	{
+		for (int k = 0; k < matdim; ++k)
+		{
+			output << data[k + j*matdim] << "\t";
+		}
+		output << endl;
 	}
+}	
 
 int main(int argc, const char** argv) {
 	std::vector<float> data(127*127);
@@ -39,5 +51,6 @@ int main(int argc, const char** argv) {
 	{
 		cout << data[i] << "\n";
 	}
+	writeData(data.data(),127);
   
 }
