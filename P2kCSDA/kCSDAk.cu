@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <sstream>
 #include <vector>
 #include <utility>
 #include <boost/tokenizer.hpp>
@@ -21,7 +22,7 @@ __global__ void calculateK(float * d_out, float * d_in,float * d_jlist, float * 
     {
 	    float sum = 0;
 	    //Ver lo de los indices matriz julia vs c++
-	    for (int l = 0; l < 128; ++l)
+	    for (int l = 0; l < electrodes; ++l)
 	    {
 	    	//Coordenadas funcionan igual con desfase [1]
 	    	//CoordenadasTotal[j]
@@ -43,7 +44,6 @@ __global__ void calculateK(float * d_out, float * d_in,float * d_jlist, float * 
 	    //Equivalente a d_out[j,k] = sum
     	d_out[k + electrodes*j] = sum;
     }
-    
 }
 
 void readData(string name, float* data){
@@ -70,6 +70,7 @@ void readData(string name, float* data){
 	}
 
 void writeData(float* data, int matdim){
+	remove( "K.dat" );
 	std::ofstream output("K.dat");
 	for (int j = 0; j < matdim; ++j)
 	{
@@ -96,8 +97,11 @@ void genCoords(float* jlist, float* klist,int matdim){
 
 
 int main(int argc, char ** argv) {
-	const int  BLOCK_SIZE = 8;
-	const int ELECTRODES = 128;
+	const int BLOCK_SIZE = 8;
+	std::istringstream iss( argv[2] );
+    int val;
+    iss >> val;
+	const int ELECTRODES = val;
 	const int MATRIX_DIM = 64;
 	const int ORIGIN = 63;
 
