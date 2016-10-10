@@ -38,7 +38,7 @@ __global__ void calculateK(float * d_out, float * d_in,float * d_jlist, float * 
 	    	int idx1 = xk2-xl2+origin + (xk1-xl1+origin)*matdim;
 	    	//xj-xl+const	
 	    	int idx2 = xj2-xl2+origin + (xj1-xl1+origin)*matdim;
-	    	sum += d_in[xj2 + xj1*matdim];  //d_in[idx1]* d_in[idx2];
+	    	sum += d_in[idx1] * d_in[idx2];//d_in[xj2 + xj1*matdim];  
 	    }
 	    //Equivalente a d_out[j,k] = sum
     	d_out[k + electrodes*j] = sum;
@@ -99,7 +99,7 @@ int main(int argc, char ** argv) {
 	const int  BLOCK_SIZE = 8;
 	const int ELECTRODES = 128;
 	const int MATRIX_DIM = 64;
-	const int ORIGIN = 64;
+	const int ORIGIN = 63;
 
 	// const float* in, float* out
 	const int DATA_SIZE_IN = 127*127;
