@@ -44,13 +44,33 @@ void writeData(float* data, int matdim){
 	}
 }	
 
-int main(int argc, const char** argv) {
-	std::vector<float> data(127*127);
-	readData(argv[1], data.data());
-	for (int i = 0; i < data.size(); ++i)
+void genCoords(float* jlist, float* klist,int matdim){
+	int i = 0;
+	for (int j = 0; j < matdim; ++j)
 	{
-		cout << data[i] << "\n";
+		for (int k = 0; k < matdim; ++k)
+		{
+			jlist[i] = j;
+			klist[i] = k;
+			i++;
+		}
 	}
-	writeData(data.data(),127);
+}
+
+
+int main() {
+	std::vector<float> jlist(4096);
+	std::vector<float> klist(4096);
+	genCoords(jlist.data(), klist.data(),64);
+	for (int i = 0; i < 4096; ++i)
+	{
+		cout<<"Coorda["<<i<<"]: "<<jlist[i]<<" "<<klist[i]<<endl;
+	}
+
+
+	
+
+	
+	
   
 }
