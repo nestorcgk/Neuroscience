@@ -39,8 +39,10 @@ __global__ void calculateK(float * d_out, float * d_in, float * d_inTilde, float
 	    	int idx1 = xk2-xl2+origin + (xk1-xl1+origin)*matdim;
 	    	//xj-xl+const	
 	    	int idx2 = xj2-xl2+origin + (xj1-xl1+origin)*matdim;
-	    	sum = idx2;//+= d_in[idx1] * d_inTilde[idx2];//d_in[xj2 + xj1*matdim];  
+	    	if(l == 0)
+	    		sum = idx1;//+= d_in[idx1] * d_inTilde[idx2];//d_in[xj2 + xj1*matdim];  
 	    }
+	    
 	    //Equivalente a d_out[j,k] = sum
     	d_out[k + electrodes*j] = sum;
     	
@@ -154,8 +156,6 @@ int main(int argc, char ** argv) {
 	cudaMalloc((void**) &d_out, ARRAY_BYTES_H);
 	cudaMalloc((void**) &d_jlist, ARRAY_BYTES_J_LIST);
 	cudaMalloc((void**) &d_klist, ARRAY_BYTES_K_LIST);
-
-
 
 
 	// transfer the array to the GPU
