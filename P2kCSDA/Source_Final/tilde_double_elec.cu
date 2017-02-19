@@ -14,7 +14,7 @@ using namespace std;
 using namespace boost;
 	//out: datos salida; in: datos entrada; block: tamaño del bloque; electrodes:numElectrodos;matdim dimension de la b0; origin:coord origen=y=x
 	//Kernel parameters: K output matrix, Bj integral matrix (Potoworowski)
-__global__ void calculateK(double * d_out, double * d_in, double * d_inTilde, double * d_jlist, double * d_klist,int block, int electrodes, int matdim, int origin){
+__global__ void calculateKtlower(double * d_out, double * d_in, double * d_inTilde, double * d_jlist, double * d_klist,int block, int electrodes, int matdim, int origin){
 	int k = block * blockIdx.x + threadIdx.x; //column
     int j = block * blockIdx.y + threadIdx.y; //row
 
@@ -43,8 +43,41 @@ __global__ void calculateK(double * d_out, double * d_in, double * d_inTilde, do
 	    }
 	    //Equivalente a d_out[j,k] = sum
     	d_out[k + electrodes*j] = sum;
-    	d_out[j + electrodes*k] = sum;
     	
+    }
+    
+	    
+}
+
+__global__ void calculateKtupper(double * d_out, double * d_in, double * d_inTilde, double * d_jlist, double * d_klist,int block, int electrodes, int matdim, int origin){
+	int k = block * blockIdx.x + threadIdx.x; //column
+    int j = block * blockIdx.y + threadIdx.y; //row
+
+    if(k >= j && k < electrodes) {
+    	
+    	double sum = 0;
+	    //Ver lo de los indices matriz julia vs c++
+	    for (int l = 0; l < electrodes; ++l)
+	    {
+	    	//Coordenadas funcionan igual con desfase [1]
+	    	//CoordenadasTotal[j]
+	    	int xj1 = (int) d_jlist[j];//(int) ceil((double) j/ (double) matdim);
+	    	int xj2 = (int) d_klist[j];//j % matdim;
+	    	//CoordenasTodal[k]
+	    	int xk1 = (int) d_jlist[k];//(int) ceil((double) k/ (double) matdim);
+	    	int xk2 = (int) d_klist[k];//k % matdim;
+	    	//Coordenastotal[l]
+	    	int xl1 = (int) d_jlist[l];//(int) ceil((double) l/ (double) matdim);
+	    	int xl2 = (int) d_klist[l];//l % matdim;
+	    	//Matrix bj is stored as an array: Col + Row*dim;
+	    	//xk-xl+const
+	    	int idx1 = xk2-xl2+origin + (xk1-xl1+origin)*matdim;
+	    	//xj-xl+const	
+	    	int idx2 = xj2-xl2+origin + (xj1-xl1+origin)*matdim;
+	    	sum += d_in[idx1] * d_inTilde[idx2];//d_in[xj2 + xj1*matdim];  
+	    }
+	    //Equivalente a d_out[j,k] = sum
+    	d_out[k + electrodes*j] = sum;
     	
     }
     
@@ -75,8 +108,8 @@ void readData(string name, double* data){
 	}
 
 void writeData(double* data, int matdim){
-	remove( "Ktilde.dat" );
-	std::ofstream output("Ktilde.dat");
+	remove( "Ktilde_complete.dat" );
+	std::ofstream output("Ktilde_complete.dat");
 	for (int j = 0; j < matdim; ++j)
 	{
 		for (int k = 0; k < matdim; ++k)
@@ -204,7 +237,8 @@ int main(int argc, char ** argv) {
     const dim3 gridSize(ceil(ELECTRODES/ (double) BLOCK_SIZE), ceil(ELECTRODES/(double) BLOCK_SIZE), 1);
 
 	// launch the kernel
-	calculateK<<<gridSize, blockSize>>>(d_out, d_in, d_inTilde, d_jlist , d_klist, BLOCK_SIZE, ELECTRODES, 127, ORIGIN);
+	calculateKtlower<<<gridSize, blockSize>>>(d_out, d_in, d_inTilde, d_jlist , d_klist, BLOCK_SIZE, ELECTRODES, 127, ORIGIN);
+	calculateKtupper<<<gridSize, blockSize>>>(d_out, d_in, d_inTilde, d_jlist , d_klist, BLOCK_SIZE, ELECTRODES, 127, ORIGIN);
 	
 	// copy back the result array to the CPU
 	cudaMemcpy(result.data(), d_out, ARRAY_BYTES_H, cudaMemcpyDeviceToHost);
